@@ -131,45 +131,62 @@ class Quixo:
 
     def move_to_pos(self, direction, x, y):
         if direction == 'l':
-            self.move_left(x)
+            self.move_left(x,y)
         elif direction == 'r':
-            self.move_right(x)
+            self.move_right(x,y)
         elif direction == 'u':
-            self.move_up(y)
+            self.move_up(x,y)
         elif direction == 'd':
-            self.move_down(y)
+            self.move_down(x,y)
         else:
             print("Invalid direction")
 
-    def move_right(self, x):
-        row = self.board[x]
-        row.append(row.pop(0))
+    def move_right(self, x, y):
+        if y == 4:
+            print("Invalid direction") #fix: if it's a las row element, let the user enter another direction
+        else:
+            row = self.board[x]
+            aux = row.pop(y)
+            row.append(aux)
 
-    def move_left(self, x):
-        row = self.board[x]
-        row.insert(0, row.pop())
+    def move_left(self, x, y):
+        if y == 0:
+            print("Invalid direction") #fix: if it's a las row element, let the user enter another direction
+        else:
+            row = self.board[x]
+            aux = row.pop(y)
+            row.insert(0, aux)
 
-    def move_down(self, y):#onlyworks if it's corner
-        col = [row[y] for row in self.board] 
-        col.append(col.pop(0))
-        for i in range(5):
-            self.board[i][y] = col[i]
+    def move_down(self, x, y):#works
+        if x == 4:
+            print("Invalid direction") #fix: if it's a las row element, let the user enter another direction
+        else:
+            col = [row[y] for row in self.board] 
+            aux = col.pop(x)
+            col.append(aux)
+            for i in range(5):
+                self.board[i][y] = col[i]
 
-    def move_up(self, y):#only works if it's corner
-        col = [row[y] for row in self.board]
-        col.insert(0, col.pop())
-        for i in range(5):
-            self.board[i][y] = col[i]
+    def move_up(self, x, y):#works
+        if x == 0:
+            print("Invalid direction") #fix: if it's a las row element, let the user enter another direction
+        else:
+            col = [row[y] for row in self.board]
+            aux = col.pop(x)
+            col.insert(0, aux)
+            for i in range(5):
+                self.board[i][y] = col[i]
 
     def is_corner(self):
         pass
 
 #board = [['', '', '', '', ''], ['', '', '', '', ''], ['', '', '', '', ''], ['', '', '', '', ''], ['', '', '', '', '']]
-board = [['', 'X', '', '', ''], 
+board = [['O', 'X', '', '', ''], 
          ['', 'X', 'X', 'X', ''], 
-         ['', '', '', '', 'O'], 
+         ['O', '', '', '', 'O'], 
          ['', '', '', '', ''], 
-         ['', '', 'X', '', '']]
+         ['', 'O', 'X', '', '']]
 
 Q = Quixo(board)
 Q.play()
+
