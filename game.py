@@ -1,6 +1,7 @@
 import random
 #PENDING: Fix moves, limit moves according to the rules, modify minimax function, modify check win and draw, create node, create bot, create heuristic
 
+
 class Quixo:
     def __init__(self, board):
         self.board = board
@@ -23,10 +24,10 @@ class Quixo:
 
         while not self.check_winner(self.board, self.player_symbol) and not self.check_winner(self.board, 'O') and not self.check_draw(self.board):
             x, y = map(int, input("Enter your move (row and column): ").split())
-            direction = input("Enter direction: ").lower()
+            direction = self.get_valid_direction(x,y)
 
             if (x, y) in self.forbidden_moves:
-                print("Forbidden move. Try again.")
+                print("Forbidden move, try again")
                 continue
 
             if self.board[x][y] == '':
@@ -56,6 +57,7 @@ class Quixo:
                 pass
             else:
                 print("Invalid move. Try again.")
+
     '''
     def minimax_alpha_beta(self, board, depth, is_maximizing, alpha, beta):
         if self.check_winner(board, self.player_symbol):
@@ -141,44 +143,50 @@ class Quixo:
         else:
             print("Invalid direction")
 
-    def move_right(self, x, y):#works
-        if y == 4:
-            print("Invalid direction") #fix: if it's a las row element, let the user enter another direction
-        else:
-            row = self.board[x]
-            aux = row.pop(y)
-            row.append(aux)
+    def get_valid_direction(self, x, y):
+        while True:
+            direction = input("Enter direction: ").lower()
+            if self.is_valid_direction(direction, x, y):
+                return direction
+            else:
+                print("Ooops! You can't do that")
 
-    def move_left(self, x, y):#works
-        if y == 0:
-            print("Invalid direction") #fix: if it's a las row element, let the user enter another direction
-        else:
-            row = self.board[x]
-            aux = row.pop(y)
-            row.insert(0, aux)
+    def is_valid_direction(self, direction, x, y):
+        if direction == 'l' and y > 0:
+            return True
+        if direction == 'r' and y < 4:
+            return True
+        if direction == 'u' and x > 0:
+            return True
+        if direction == 'd' and x < 4:
+            return True
+        return False
 
-    def move_down(self, x, y):#works
-        if x == 4:
-            print("Invalid direction") #fix: if it's a las row element, let the user enter another direction
-        else:
-            col = [row[y] for row in self.board] 
-            aux = col.pop(x)
-            col.append(aux)
-            for i in range(5):
-                self.board[i][y] = col[i]
+    def move_right(self, x, y):
+        row = self.board[x]
+        aux = row.pop(y)
+        row.append(aux)
 
-    def move_up(self, x, y):#works
-        if x == 0:
-            print("Invalid direction") #fix: if it's a las row element, let the user enter another direction
-        else:
-            col = [row[y] for row in self.board]
-            aux = col.pop(x)
-            col.insert(0, aux)
-            for i in range(5):
-                self.board[i][y] = col[i]
+    def move_left(self, x, y):
+        row = self.board[x]
+        aux = row.pop(y)
+        row.insert(0, aux)
 
-    def is_corner(self):
-        pass
+    def move_down(self, x, y):
+         col = [row[y] for row in self.board] 
+         aux = col.pop(x)
+         col.append(aux)
+         for i in range(5):
+             self.board[i][y] = col[i]
+
+    def move_up(self, x, y):
+        col = [row[y] for row in self.board]
+        aux = col.pop(x)
+        col.insert(0, aux)
+        for i in range(5):
+            self.board[i][y] = col[i]
+
+    
 
 #board = [['', '', '', '', ''], ['', '', '', '', ''], ['', '', '', '', ''], ['', '', '', '', ''], ['', '', '', '', '']]
 board = [['O', 'X', '', '', ''], 
@@ -189,4 +197,3 @@ board = [['O', 'X', '', '', ''],
 
 Q = Quixo(board)
 Q.play()
-
