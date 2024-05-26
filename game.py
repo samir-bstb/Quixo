@@ -141,7 +141,7 @@ class Quixo:
         else:
             print("Invalid direction")
 
-    def move_right(self, x, y):
+    def move_right(self, x, y):#works
         if y == 4:
             print("Invalid direction") #fix: if it's a las row element, let the user enter another direction
         else:
@@ -149,7 +149,7 @@ class Quixo:
             aux = row.pop(y)
             row.append(aux)
 
-    def move_left(self, x, y):
+    def move_left(self, x, y):#works
         if y == 0:
             print("Invalid direction") #fix: if it's a las row element, let the user enter another direction
         else:
