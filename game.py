@@ -53,9 +53,23 @@ class Quixo:
                     print("It's a draw!")
                     break
             elif self.board[x][y] == self.player_symbol:
+                self.move_to_pos(direction, x, y)
+                self.print_board(self.board)
+
+                if self.check_winner(self.board, self.computer_symbol):
+                    print("You Lose! :(")
+                    break
+                
+                if self.check_winner(self.board, self.player_symbol):
+                    print("You win!")
+                    break
+                
+                elif self.check_draw(self.board):
+                    print("It's a draw!")
+                    break
+                #Missing: after user's move, the computer has to make its move, otherwise the user is able to move again
+            else: #the cell is occupied by the computer
                 pass
-            else:
-                print("Invalid move. Try again.")
 
     '''
     def minimax_alpha_beta(self, board, depth, is_maximizing, alpha, beta):
