@@ -1,5 +1,5 @@
 import random
-#PENDING: Modify minimax function, modify check win and draw, create node, create bot, create heuristic
+#PENDING: Modify minimax and get_best_move function, create node, create bot, create heuristic
 
 class Quixo:
     def __init__(self, board):
