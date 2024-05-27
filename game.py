@@ -22,7 +22,14 @@ class Quixo:
         self.print_board(self.board)
 
         while not self.check_winner(self.board, self.player_symbol) and not self.check_winner(self.board, 'O') and not self.check_draw(self.board):
-            x, y = map(int, input("Enter your move (row and column): ").split())
+            while True:
+                x, y = map(int, input("Enter your move (row and column): ").split())
+                if self.board[x][y] == self.computer_symbol:
+                    print("You can't move that piece, choose another one")
+                elif (x, y) in self.forbidden_moves:
+                    print("Forbidden move, try again")
+                else:
+                    break
             direction = self.get_valid_direction(x,y)
 
             if (x, y) in self.forbidden_moves:
