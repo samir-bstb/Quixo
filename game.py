@@ -16,12 +16,12 @@ class Quixo:
     def play(self):
         print("Welcome to Quixo!")
         print(f"You are playing as '{self.player_symbol}'. ")
-        print("Enter your piece of choice by specifying the row and column numbers (0-2).")
+        print("Enter your piece of choice by specifying the row and column numbers (0-4).")
         print("Then type the direction you want to move the piece")
         print("L for left, R for right, U for up or D for down")
         self.print_board(self.board)
 
-        while not self.check_winner(self.board, self.player_symbol) and not self.check_winner(self.board, 'O') and not self.check_draw(self.board):
+        while not self.check_winner(self.board, self.player_symbol) and not self.check_winner(self.board, self.computer_symbol) and not self.check_draw(self.board):
             while True:
                 x, y = map(int, input("Enter your move (row and column): ").split())
                 if self.board[x][y] == self.computer_symbol:
