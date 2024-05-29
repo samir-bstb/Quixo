@@ -56,7 +56,6 @@ class QuixoBot:
 
     def __move_right(self, row, col, board):
         if col < 4:
-            board[row][col] = self.symbol
             Row = board[row]
             aux = Row.pop(col)
             Row.append(aux)
@@ -66,32 +65,32 @@ class QuixoBot:
 
     def __move_left(self, row, col, board):
         if col > 0:
-            board[row][col] = self.symbol
             Row = self.board[row]
             aux = Row.pop(col)
             Row.insert(0, aux)
+            return board
         else:
             return False
 
     def __move_down(self, row, col, board):
         if row < 4:
-            board[row][col] = self.symbol
             Col = [row[col] for row in board] 
             aux = Col.pop(row)
             Col.append(aux)
             for i in range(5):
                 self.board[i][col] = Col[i]
+            return board
         else:
             return False
 
     def __move_up(self, row, col, board):
-        if row > 0:
-            board[row][col] = self.symbol
+        if row > 0
             Col = [row[col] for row in board]
             aux = Col.pop(row)
             Col.insert(0, aux)
             for i in range(5):
-                self.board[i][col] = Col[i]   
+                self.board[i][col] = Col[i]  
+            return board   
         else:
             return False
     .
