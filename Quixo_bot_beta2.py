@@ -1,10 +1,30 @@
 import copy
 
+'''
+class heuristic:
+    @staticmethod
+    def blocking_opponent(self):
+        pass
+
+class Node:
+    def __init__(self, curr_state):
+        self.curr_state = curr_state
+        self.heuristic_value = 0
+        self.path = []
+
+    def __lt__(self, other):
+        return self.heuristic_value < other.heuristic_value
+
+    def __eq__(self, other):
+        return self.curr_state == other.curr_state
+
+    def __gt__(self, other):
+        return self.heuristic_value > other.heuristic_value'''
+
 class QuixoBot:
-   
     def __init__(self, symbol):
+        self.name = "Messi"
         self.symbol = symbol
-        self.name = ""
         self.forbidden_moves = [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
         self.directions = ['l', 'r', 'u', 'd']
 
@@ -17,7 +37,7 @@ class QuixoBot:
         if best_move:
             row, col = best_move
             print("best move: ",best_move, "best direction: ", best_direction)
-            self.apply_move(board, row, col, best_direction)
+            self.apply_final_move(board, row, col, best_direction)
         return board
 
     def get_best_move(self, board):    
@@ -151,6 +171,20 @@ class QuixoBot:
         elif direction == "u":
             return self.__move_up(row, col, board)
         return False 
+    
+    def apply_final_move(self, board, row, col, direction):
+        if board[row][col] == 0:
+            board[row][col] = self.symbol
+
+        if direction == "r":
+            return self.__move_right(row, col, board)
+        elif direction == "l":
+            return self.__move_left(row, col, board)
+        elif direction == "d":
+            return self.__move_down(row, col, board)
+        elif direction == "u":
+            return self.__move_up(row, col, board)
+        return False
 
     def print_board(self, board):
         for row in board:
@@ -222,15 +256,40 @@ class QuixoBot:
         # No winner
         return None
     
-    def reset(self, symbol):
-        pass
+    def evaluate_board(self, board):
+        # Heuristic evaluation function
+        score = 0
+        size = len(board)
 
-#board = [[0 for _ in range(5)] for _ in range(5)]
-board = [[-1, 1, 0, 0,1], 
-         [ 1, -1, 1, 1, -1], 
-         [-1, 0, -1, 0,1], 
-         [ 0, 0, 0, 0, 1], 
-         [ 0,-1, 1, 0, 1]]
+        for i in range(size):
+            row = board[i]
+            col = [board[j][i] for j in range(size)]
+            score += self.evaluate_line(row)
+            score += self.evaluate_line(col)
+
+        diag1 = [board[i][i] for i in range(size)]
+        diag2 = [board[i][size - i - 1] for i in range(size)]
+        score += self.evaluate_line(diag1)
+        score += self.evaluate_line(diag2)
+
+        return score
+
+    def evaluate_line(self, line):
+        score = 0
+        if line.count(self.symbol) == 4 and line.count(0) == 1:
+            score += 5
+        if line.count(self.opponent_symbol) == 4 and line.count(0) == 1:
+            score -= 5
+        if line.count(self.symbol) == 3 and line.count(0) == 2:
+            score += 2
+        if line.count(self.opponent_symbol) == 3 and line.count(0) == 2:
+            score -= 2
+        return score
+
+    def reset(self, symbol):
+        self.symbol = symbol
+
+board = [[0 for _ in range(5)] for _ in range(5)]
 
 bot = QuixoBot(1)
 print(board)
