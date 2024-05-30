@@ -30,7 +30,7 @@ class QuixoBot:
             for j in range(5):
                 if (i, j) not in self.forbidden_moves:
                     if board[i][j] == 0: 
-                        print("enter best move with 0")
+                        #print("enter best move with 0")
                         for direction in self.directions:
                             board_copy = copy.deepcopy(board) 
                             board_copy[i][j] = self.symbol
@@ -41,7 +41,7 @@ class QuixoBot:
                                     best_move = (i, j)
                                     best_direction = direction
                     elif board[i][j] == self.symbol:
-                        print("enter best move with symbol")
+                        #print("enter best move with symbol")
                         for direction in self.directions:
                             board_copy = copy.deepcopy(board) 
                             if self.apply_move(board_copy, i, j, direction):
@@ -53,9 +53,15 @@ class QuixoBot:
         return best_move, best_direction
 
     def minimax_alpha_beta(self, board, depth, alpha, beta, is_maximizing): #add the smae logic fro the get_best_move function and  miximum depth of 2
-        if self.check_winner(board):
-            return -1
-        
+        winner = self.check_winner(board)
+        if winner is not None:
+            if winner == self.symbol:
+                return 10 - depth
+            elif winner == 0:
+                return 0
+            else:
+                return depth - 10
+            
         if depth >= 2:
             return 0
 
@@ -65,28 +71,27 @@ class QuixoBot:
                 for j in range(5):
                     if (i, j) not in self.forbidden_moves:
                         if board[i][j] == 0: 
-                            print("enter maximizing with 0")
+                            #print("enter maximizing with 0")
                             for direction in self.directions:
                                 board_copy = copy.deepcopy(board) 
                                 board_copy[i][j] = self.symbol
                                 if self.apply_move(board_copy, i, j, direction):
-                                    print("move" , i, j, direction)
-                                    self.print_board(board_copy)
-                                    print()
+                                    #print("move" , i, j, direction)
+                                    #self.print_board(board_copy)
+                                    #print()
                                     score = self.minimax_alpha_beta(board, depth + 1, alpha, beta, False)
                                     best_score = max(best_score, score) 
                                     alpha = max(alpha, best_score)
                                     if beta <= alpha:   
-                                        break
-            
+                                        break     
                         elif board[i][j] == self.symbol:
-                            print("enter maximizing with symbol")
+                            #print("enter maximizing with symbol")
                             for direction in self.directions:
                                 board_copy = copy.deepcopy(board) 
                                 if self.apply_move(board_copy, i, j, direction):
-                                    print("move" , i, j, direction)
-                                    self.print_board(board_copy)
-                                    print()
+                                    #print("move" , i, j, direction)
+                                    #self.print_board(board_copy)
+                                    #print()
                                     score = self.minimax_alpha_beta(board, depth + 1, alpha, beta, False)
                                     best_score = max(best_score, score) 
                                     alpha = max(alpha, best_score)
@@ -99,14 +104,14 @@ class QuixoBot:
                 for j in range(5):
                     if (i, j) not in self.forbidden_moves:
                         if board[i][j] == 0: 
-                            print("enter minimizing with 0")
+                            #print("enter minimizing with 0")
                             for direction in self.directions:
                                 board_copy = copy.deepcopy(board) 
                                 board_copy[i][j] = self.symbol
                                 if self.apply_move(board_copy, i, j, direction):
-                                    print("move" , i, j, direction)
-                                    self.print_board(board_copy)
-                                    print()
+                                    #print("move" , i, j, direction)
+                                    #self.print_board(board_copy)
+                                    #print()
                                     score = self.minimax_alpha_beta(board, depth + 1, alpha, beta, True)
                                     best_score = min(best_score, score) 
                                     beta = min(alpha, best_score)
@@ -114,13 +119,13 @@ class QuixoBot:
                                         break
             
                         elif board[i][j] == self.symbol:
-                            print("enter minimizing with symbol")
+                            #print("enter minimizing with symbol")
                             for direction in self.directions:
                                 board_copy = copy.deepcopy(board) 
                                 if self.apply_move(board_copy, i, j, direction):
-                                    print("move" , i, j, direction)
-                                    self.print_board(board_copy)
-                                    print()  
+                                    #print("move" , i, j, direction)
+                                    #self.print_board(board_copy)
+                                    #print()  
                                     score = self.minimax_alpha_beta(board, depth + 1, alpha, beta, True)
                                     best_score = min(best_score, score) 
                                     beta = min(alpha, best_score)
@@ -191,7 +196,7 @@ class QuixoBot:
         else:
             return False
         
-    def check_winner(self, board): #change it, make it useful
+    def check_winner(self, board): #change it to game over
         size = len(board)
 
         # Check rows and columns
@@ -210,6 +215,9 @@ class QuixoBot:
             return board[0][0]
         if abs(diag_sum2) == size:
             return board[0][size - 1]
+        
+        if all(board[i][j] != 0 for i in range(size) for j in range(size)):
+            return 0  # Indicating a draw
 
         # No winner
         return None
