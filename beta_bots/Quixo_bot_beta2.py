@@ -33,6 +33,9 @@ class QuixoBot:
     # -1 - O cubit
 
     def play_turn(self, board):
+        print("playin messi's turn")
+        self.print_board(board)
+        print()    
         best_move, best_direction = self.get_best_move(board)
         if best_move:
             row, col = best_move
@@ -289,9 +292,9 @@ class QuixoBot:
     def reset(self, symbol):
         self.symbol = symbol
 
-board = [[0 for _ in range(5)] for _ in range(5)]
+#board = [[0 for _ in range(5)] for _ in range(5)]
 
-bot = QuixoBot(1)
-print(board)
-new_board = bot.play_turn(board)
-print(new_board)
+#bot = QuixoBot(1)
+#print(board)
+#new_board = bot.play_turn(board)
+#print(new_board)
