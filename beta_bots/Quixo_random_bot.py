@@ -1,4 +1,5 @@
 import random
+#The including bot was also for testing, this is an AI vs human game created to understand the game
 
 class Quixo:
     def __init__(self, board):
