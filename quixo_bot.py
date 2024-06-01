@@ -8,7 +8,6 @@ import copy
 class QuixoBot:
     def __init__(self, symbol):
         self.name = "δάσκαλος της γιόγκα" #Official Name
-        #self.name = "Ahorcarucas" #on honor to its original name
         self.symbol = symbol
         self.opponent_symbol = -symbol
         self.forbidden_moves = [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
