@@ -1,8 +1,9 @@
-import copy
 #This is our offical Quixo bot, it's designed to play efficiently, optimized and above all, by the rules. 
 #Ton Roi uses minimax algorithm improved by alpha-beta pruning, its decision-making is aided by a heuristic function.
 #The heuristic funtion is focused on winnig and proritazes the options where it can make lines, nonetheless, it also looks
 #for options to block its opponent which makes it a strong adversary to its enemies.
+
+import copy
 
 class QuixoBot:
     def __init__(self, symbol):
